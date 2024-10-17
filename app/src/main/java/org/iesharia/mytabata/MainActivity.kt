@@ -13,14 +13,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import org.iesharia.mytabata.ui.theme.MytabataTheme
-
-var counterState : Boolean = false
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,35 +39,23 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Counter(modifier: Modifier = Modifier) {
     var theCounter by remember { mutableStateOf(0L) }
-
-
+    var miConterDown by remember{ mutableStateOf(CounterDown(99, {newvalue -> theCounter = newvalue}))}
 
     Column {
-    Text(
-        text = theCounter.toString(),
-        modifier = modifier
-    )
+        Text(
+            text = theCounter.toString(),
+            modifier = modifier
+        )
         Button(onClick = {
-            if (!counterState) {
-            object : CountDownTimer(30000, 1000) {
-
-                override fun onTick(millisUntilFinished: Long) {
-                    //theCounter = (theCounter.toInt() - 1).toString()
-                    theCounter = millisUntilFinished / 1000
-                }
-
-                override fun onFinish() {
-                    counterState = false
-                }
-            }.start()
-                counterState = true
-            }
+            miConterDown.toggle()
         }) {
-            Text(text = "Pulsar")
+            Text(
+                text = "Pulsar"
+            )
         }
     }
-
 }
+
 
 @Preview(showBackground = true)
 @Composable
